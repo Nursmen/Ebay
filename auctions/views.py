@@ -91,6 +91,16 @@ def create(request):
 def listing(request, listing_id):
     listing = Listing.objects.get(id=listing_id)
 
+    if request.session.get('message'):
+        message = request.session.get('message')
+        del request.session['message']
+
+        return render(request, "auctions/listing.html", {
+            "listing": listing,
+            'user':request.user,
+            'message': message
+        })
+    
     return render(request, "auctions/listing.html", {
         "listing": listing,
         'user':request.user
@@ -126,3 +136,14 @@ def close(request, listing_id):
     listing.is_active = False
     listing.save()
     return redirect('index')
+
+def bid(request, listing_id):
+    listing = Listing.objects.get(id=listing_id)
+    if float(request.POST['bid']) > float(listing.price):
+        listing.price = request.POST['bid']
+        listing.winner = request.user
+        listing.save()
+        return redirect('listing', listing_id=listing.id)
+    else:
+        request.session['message'] = 'Bid must be higher than current price'
+        return redirect('listing', listing_id=listing.id)

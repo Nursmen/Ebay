@@ -39,6 +39,18 @@
 
         <div class="sthForBit">
             <!-- create here sth for bit -->
+            <!-- form with one input:int and button for submit -->
+            <form action="{% url 'bid' listing_id=listing.id %}" method="POST">
+                {% csrf_token %}
+                <input type="number" name="bid" placeholder="Enter your bid" step="0.01">
+                <button type="submit" class="btn btn-primary">Bid</button>
+            </form>
+
+            {% if message %}
+            <br>
+            <p class="alert alert-danger">{{message}}</p>
+            <br>
+            {% endif %}
         </div>
 
         <p>Details</p>
@@ -52,10 +64,15 @@
             {% endif %}
         </ul>
 
-        {% if not listing.winner %}
-            <p class="alert alert-success">Winner: Nobody</p>
-        {% else %}
-            <p class="alert alert-success">Winner: {{listing.winner.username}}</p>
+        {% if not listing.is_active %}
+            {% if not listing.winner %}
+                <p class="alert alert-success">Winner: Nobody</p>
+            {% else %}
+                <p class="alert alert-success">Winner: {{listing.winner.username}}</p>
+            {% endif %}
         {% endif %}
+        
+
+        <div class="forcoments"></div>
     </div>
 {% endblock %}

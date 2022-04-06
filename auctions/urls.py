@@ -18,4 +18,6 @@ urlpatterns = [
     path('mywatchlist', views.mywatchlist, name='mywatchlist'),
 
     path('close/<int:listing_id>', views.close, name='close'),
+
+    path('bid/<int:listing_id>', views.bid, name='bid'),
 ]
