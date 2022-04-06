@@ -12,9 +12,15 @@ class Listing(models.Model):
     image = models.CharField(max_length=200, blank=True, null=True, default='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/1280px-No_image_3x4.svg.png')
     created_at = models.DateTimeField(auto_now_add=True)
     seller = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.CharField(max_length=200, blank=True, null=True)
+    category = models.ManyToManyField("Category", blank=True, default=None)
     is_active = models.BooleanField(default=True)
     winner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='winner', blank=True, null=True)
 
     def __str__(self):
         return self.title
+
+class Category(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name

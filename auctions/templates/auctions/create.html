@@ -37,20 +37,20 @@
 
         <!-- category -->
         <div class="form-group">
-            <label for="category">Category</label>
-            <select class="form-control" id="category" name="category">
-                <option>Art</option>
-                <option>Books</option>
-                <option>Clothing</option>
-                <option>Electronics</option>
-                <option>Furniture</option>
-                <option>Games</option>
-                <option>Music</option>
-                <option>Other</option>
+            <label for="category">Category (press "Ctrl" for multiple)</label>
+            <select class="form-control" id="category" name="category" multiple>
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
             </select>
         </div>
 
+        {% if message %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endif %}
 
         <button type="submit" class="btn btn-primary">Create</button>
     </form>
+
+    <!-- print message -->
 {% endblock %}

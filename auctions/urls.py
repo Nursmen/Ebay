@@ -20,4 +20,10 @@ urlpatterns = [
     path('close/<int:listing_id>', views.close, name='close'),
 
     path('bid/<int:listing_id>', views.bid, name='bid'),
+
+    # categories
+    path('categories/', views.categories, name='categories'),
+
+    # category
+    path('category/<int:category_id>', views.category, name='category'),
 ]

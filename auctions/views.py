@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
 
-from .models import User, Listing
+from .models import *
 
 
 def index(request):
@@ -73,20 +73,33 @@ def register(request):
 # function for create new listing
 def create(request):
     if request.method == "POST":
+        if not request.POST['title'] or not request.POST['description'] or not request.POST['price'] or not request.POST['category']:
+            return render(request, 'auctions/create.html', {
+                'message': 'All fields are required'
+            })
+
         title = request.POST["title"]
         description = request.POST["description"]
         price = request.POST["price"]
-        image = request.POST["image"]
+        url = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/1280px-No_image_3x4.svg.png'
+        image = request.POST["image"] if request.POST["image"] else url
         seller = request.user
         is_active = request.POST["is_active"]
-        category = request.POST["category"]
+        categories = request.POST.getlist('category')
 
         new_listing = Listing(title=title, description=description, price=price, image=image, seller=seller,
-                              is_active=is_active, category=category)
+                              is_active=is_active)
         new_listing.save()
+        
+        new_listing.category.set(categories)
+
         return redirect('index')
+
     else:
-        return render(request, "auctions/create.html")
+        categories = Category.objects.all()
+        return render(request, "auctions/create.html", {
+            'categories': categories
+            })
 
 def listing(request, listing_id):
     listing = Listing.objects.get(id=listing_id)
@@ -147,3 +160,17 @@ def bid(request, listing_id):
     else:
         request.session['message'] = 'Bid must be higher than current price'
         return redirect('listing', listing_id=listing.id)
+
+def categories(request):
+    categories = Category.objects.all()
+    return render(request, 'auctions/categories.html', {
+        'categories': categories
+        })
+
+def category(request, category_id):
+    category = Category.objects.get(id=category_id)
+    listings = category.listing_set.all()
+    return render(request, 'auctions/index.html', {
+        'listings': listings,
+        'masage': 'Category: ' + category.name
+        })

@@ -60,7 +60,9 @@
             {%if not listing.category %}
             <li>Categories: No one category</li>
             {% else %}
-            <li>Categories: {{listing.category}}</li>
+
+            <li>Categories: {% for category in listing.category.all %} {{category.name}}{% if category != listing.category.last %}, {% else %}. {% endif %}{% endfor %}</li>
+
             {% endif %}
         </ul>
 

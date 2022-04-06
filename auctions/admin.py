@@ -8,3 +8,6 @@ admin.site.register(Listing)
 from .models import User
 admin.site.register(User)
 
+# Register your models here.
+from .models import Category
+admin.site.register(Category)
