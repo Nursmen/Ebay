@@ -52,5 +52,10 @@
             {% endif %}
         </ul>
 
+        {% if not listing.winner %}
+            <p class="alert alert-success">Winner: Nobody</p>
+        {% else %}
+            <p class="alert alert-success">Winner: {{listing.winner.username}}</p>
+        {% endif %}
     </div>
 {% endblock %}
