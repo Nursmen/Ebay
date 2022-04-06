@@ -28,6 +28,12 @@
             <!-- Create listing -->
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'create' %}">Create Listing</a>
+            </li>
+
+            <!-- My Watchlist -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'mywatchlist' %}">My Watchlist</a>
+            </li>
 
             {% if user.is_authenticated %}
                 <li class="nav-item">

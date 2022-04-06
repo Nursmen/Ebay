@@ -1,0 +1,56 @@
+<!-- extend layout from "auctions/layout.html" -->
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <div class="content">
+        <h3>Listing: {{listing.title}}</h3>
+
+        {% if listing in user.watchlist.all %}
+        <a href="{% url 'deletefromwatchlist' listing_id=listing.id %}">
+            <button class="btn btn-danger" style="margin-top: 10px;">
+                    Remove from watchlist
+                </button>
+            </a>
+
+        {% else %}
+        <a href="{% url 'watchlist' listing_id=listing.id %}">
+        <button class="btn btn-secondary" style="margin-top: 10px;">
+                Add to watchlist
+            </button>
+        </a>
+        {%endif %}
+
+        {% if user == listing.seller%}
+        <a href="{% url 'close' listing_id=listing.id %}">
+            <button class="btn btn-warning" style="margin-top: 10px;">
+                    Close
+                </button>
+            </a>            
+        {%endif%}
+
+        <br>
+
+        <center><img src="{{listing.image}}" alt="{{listing.title}}" height="300"></center>
+
+        <br>
+
+        <p>{{listing.description}}</p>
+        <p><h4>Price: {{listing.price}}$</h4></p>
+
+        <div class="sthForBit">
+            <!-- create here sth for bit -->
+        </div>
+
+        <p>Details</p>
+        <ul>
+            <li>Creted by: {{listing.seller}}</li>
+            <li>Created at: {{listing.created_at}}</li>
+            {%if not listing.category %}
+            <li>Categories: No one category</li>
+            {% else %}
+            <li>Categories: {{listing.category}}</li>
+            {% endif %}
+        </ul>
+
+    </div>
+{% endblock %}

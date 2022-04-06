@@ -14,7 +14,8 @@ def index(request):
     print(listings[0].image)
 
     return render(request, "auctions/index.html", {
-        "listings": listings
+        "listings": listings,
+        'masage': 'Active Listings'
     })
 
 
@@ -86,3 +87,42 @@ def create(request):
         return redirect('index')
     else:
         return render(request, "auctions/create.html")
+
+def listing(request, listing_id):
+    listing = Listing.objects.get(id=listing_id)
+
+    return render(request, "auctions/listing.html", {
+        "listing": listing,
+        'user':request.user
+    })
+
+# add listing to watchlist
+def watchlist(request, listing_id):
+    listing = Listing.objects.get(id=listing_id)
+    user = request.user
+    user.watchlist.add(listing)
+    
+    return redirect('listing', listing_id=listing.id)
+
+
+def deletefromwatchlist(request, listing_id):
+    listing = Listing.objects.get(id=listing_id)
+    user = request.user
+    user.watchlist.remove(listing)
+
+    return redirect('listing', listing_id=listing.id)
+
+def mywatchlist(request):
+    user = request.user
+    listings = user.watchlist.all()
+    return render(request, 'auctions/index.html', {
+        'listings': listings,
+        'masage': 'My Watchlist'
+    })
+
+
+def close(request, listing_id):
+    listing = Listing.objects.get(id=listing_id)
+    listing.is_active = False
+    listing.save()
+    return redirect('index')
