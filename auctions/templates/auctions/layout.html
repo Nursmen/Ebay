@@ -23,24 +23,25 @@
                 <a class="nav-link" href="{% url 'index' %}">Active Listings</a>
             </li>
 
+            {% if user.is_authenticated %}
+
             <!-- My own -->
 
-            <!-- Create listing -->
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'create' %}">Create Listing</a>
-            </li>
+                <!-- Create listing -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'create' %}">Create Listing</a>
+                </li>
 
-            <!-- My Watchlist -->
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'mywatchlist' %}">My Watchlist</a>
-            </li>
+                <!-- My Watchlist -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'mywatchlist' %}">My Watchlist</a>
+                </li>
 
-            <!-- Categories -->
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'categories' %}">Categories</a>
-            </li>
+                <!-- Categories -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'categories' %}">Categories</a>
+                </li>
 
-            {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
                 </li>
