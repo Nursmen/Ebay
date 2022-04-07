@@ -174,3 +174,20 @@ def category(request, category_id):
         'listings': listings,
         'masage': 'Category: ' + category.name
         })
+
+def coment(request, listing_id):
+    listing = Listing.objects.get(id=listing_id)
+    if request.method == "POST":
+        if not request.POST['comment']:
+            return render(request, 'auctions/listing.html', {
+                'listing': listing,
+                'message': 'Comment is required'
+                })
+        comment = request.POST['comment']
+        new_comment = Coment(text=comment, listing=listing, user=request.user)
+        new_comment.save()
+        return redirect('listing', listing_id=listing.id)
+    else:
+        return render(request, 'auctions/listing.html', {
+            'listing': listing
+            })

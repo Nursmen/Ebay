@@ -26,4 +26,7 @@ urlpatterns = [
 
     # category
     path('category/<int:category_id>', views.category, name='category'),
+
+    # coment
+    path('coment/<int:listing_id>', views.coment, name='coment'),
 ]

@@ -11,3 +11,7 @@ admin.site.register(User)
 # Register your models here.
 from .models import Category
 admin.site.register(Category)
+
+# Register your models here.
+from .models import Coment
+admin.site.register(Coment)

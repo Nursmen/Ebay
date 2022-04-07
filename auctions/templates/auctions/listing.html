@@ -53,7 +53,7 @@
             {% endif %}
         </div>
 
-        <p>Details</p>
+        <p>Details:</p>
         <ul>
             <li>Creted by: {{listing.seller}}</li>
             <li>Created at: {{listing.created_at}}</li>
@@ -75,6 +75,31 @@
         {% endif %}
         
 
-        <div class="forcoments"></div>
+        <div class="forcoments">
+            <p>Comments:</p>
+
+            <div class="createcoment">
+                <form action="{% url 'coment' listing_id=listing.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="text" name="comment" placeholder="Enter your comment">
+                    <button type="submit" class="btn btn-primary">Comment</button>
+                </form>
+            </div>
+
+
+            {% if listing.comments.all|length == 0 %}
+                <p>No comments yet</p>
+            {% else %}
+                <br>
+                {% for comment in listing.comments.all %}
+                <div class="comment border" style="margin-left: 5px; padding: 5px; margin-bottom: 8px;">
+                    <p style="font-size: large;">{{comment.user.username}}</p>
+                    <p>{{comment.text}}</p>
+                    <p style="font-size: small; color: dimgray;">{{comment.created_at}}</p>
+                </div>
+                {% endfor %}
+            {% endif %}
+
+        </div>
     </div>
 {% endblock %}
